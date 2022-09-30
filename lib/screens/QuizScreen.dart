@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:quiz_app/screens/HomeScreen.dart';
+import 'package:quiz_app/utils/GlobalColors.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -23,12 +24,12 @@ class _QuizScreenState extends State<QuizScreen> {
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          color: Color.fromARGB(255, 13, 22, 27),
+          color: ColorConstants.PrimaryColor, //Color.fromARGB(255, 13, 22, 27),
           child: SingleChildScrollView(
             child: Column(children: [
               Container(
                 padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                color: Color.fromARGB(255, 33, 61, 54),
+                color: ColorConstants.light, //Color.fromARGB(255, 33, 61, 54),
                 alignment: Alignment.centerLeft,
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.09,
@@ -36,13 +37,13 @@ class _QuizScreenState extends State<QuizScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(
-                        Icons.heart_broken,
+                        Icons.science,
                         size: 30,
-                        color: Color.fromARGB(255, 221, 27, 13),
+                        color: Color.fromARGB(255, 255, 123, 0),
                         //  color: Color.fromARGB(255, 255, 94, 0),
                       ),
                       Text(
-                        "HK's Love Story",
+                        "Science and Nature",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -125,7 +126,7 @@ class _QuizScreenState extends State<QuizScreen> {
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Text(
-                  "1. Does HK love Mominah from the day he saw her giving a presentaion in the classroom ? ",
+                  "1. How long does it take Earth to complete one orbit around the Sun ? ",
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
