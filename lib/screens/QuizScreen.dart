@@ -2,10 +2,17 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:quiz_app/models/QandA.dart';
 import 'package:quiz_app/screens/HomeScreen.dart';
+import 'package:quiz_app/utils/GlobalColors.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  // const QuizScreen({super.key});
+  final String heading;
+  final List<QuestionAndAnswer> QandAnsList;
+
+  const QuizScreen({Key? key, required this.heading, required this.QandAnsList})
+      : super(key: key);
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -36,13 +43,13 @@ class _QuizScreenState extends State<QuizScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(
-                        Icons.heart_broken,
+                        Icons.science,
                         size: 30,
-                        color: Color.fromARGB(255, 221, 27, 13),
+                        color: ColorConstants.PrimaryAssentColor,
                         //  color: Color.fromARGB(255, 255, 94, 0),
                       ),
                       Text(
-                        "HK's Love Story",
+                        widget.heading,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -125,7 +132,7 @@ class _QuizScreenState extends State<QuizScreen> {
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Text(
-                  "1. Does HK love Mominah from the day he saw her giving a presentaion in the classroom ? ",
+                  "1. What is one of the great values that guides your life? ",
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),

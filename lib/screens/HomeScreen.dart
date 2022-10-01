@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:quiz_app/models/QandA.dart';
 import 'package:quiz_app/screens/QuizScreen.dart';
 import 'package:quiz_app/utils/GlobalColors.dart';
 
@@ -14,6 +15,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+//['What talent would you show off in a talent show?','What\'s one of your favorite comfort foods?','Favorite city?','If you were a vegetable, what vegetable would you be?']
+
+  final List<QuestionAndAnswer> qAndAns = [
+    QuestionAndAnswer(
+        Question: 'What talent would you show off in a talent show?',
+        Answers: [
+          'Despite multiple complications and her near-death experience',
+          'Had he known what was going to happen, he would have never stepped into the shower.',
+          'I\'m a great listener, really good with empathy vs sympathy and all that, but I hate people.'
+        ]),
+    QuestionAndAnswer(
+        Question: 'What talent would you show off in a talent show?',
+        Answers: [
+          'Despite multiple complications and her near-death experience',
+          'Had he known what was going to happen, he would have never stepped into the shower.',
+          'I\'m a great listener, really good with empathy vs sympathy and all that, but I hate people.'
+        ]),
+    QuestionAndAnswer(
+        Question: 'What talent would you show off in a talent show?',
+        Answers: [
+          'Despite multiple complications and her near-death experience',
+          'Had he known what was going to happen, he would have never stepped into the shower.',
+          'I\'m a great listener, really good with empathy vs sympathy and all that, but I hate people.'
+        ]),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,27 +151,27 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const QuizScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => QuizScreen(
+                            QandAnsList: qAndAns,
+                            heading: 'Art and Litrature',
+                          )),
                 );
               },
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const QuizScreen()),
-                  );
-                },
-                child: CategoryCard(
-                  text: 'Art and Litrature',
-                  icon: Icons.design_services,
-                ),
+              child: CategoryCard(
+                text: 'Art and Litrature',
+                icon: Icons.design_services,
               ),
             ),
             GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const QuizScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => QuizScreen(
+                            QandAnsList: qAndAns,
+                            heading: 'General Knowledge',
+                          )),
                 );
               },
               child: CategoryCard(
@@ -156,7 +183,11 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const QuizScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => QuizScreen(
+                            QandAnsList: qAndAns,
+                            heading: 'Science & Nature',
+                          )),
                 );
               },
               child: CategoryCard(
@@ -168,7 +199,11 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const QuizScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => QuizScreen(
+                            QandAnsList: qAndAns,
+                            heading: 'Technology',
+                          )),
                 );
               },
               child: CategoryCard(
