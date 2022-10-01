@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:quiz_app/models/QandA.dart';
 import 'package:quiz_app/screens/HomeScreen.dart';
+import 'package:quiz_app/screens/ResultScreen.dart';
 import 'package:quiz_app/utils/GlobalColors.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -23,6 +24,8 @@ class _QuizScreenState extends State<QuizScreen> {
   String option2 = 'B';
   String option3 = 'C';
   String option4 = 'D';
+  var tq = 60;
+  var ca = 58;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,12 +33,12 @@ class _QuizScreenState extends State<QuizScreen> {
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          color: Color.fromARGB(255, 13, 22, 27),
+          color: ColorConstants.PrimaryColor, //Color.fromARGB(255, 13, 22, 27),
           child: SingleChildScrollView(
             child: Column(children: [
               Container(
                 padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                color: Color.fromARGB(255, 33, 61, 54),
+                color: ColorConstants.light, //Color.fromARGB(255, 33, 61, 54),
                 alignment: Alignment.centerLeft,
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.09,
@@ -165,7 +168,13 @@ class _QuizScreenState extends State<QuizScreen> {
                     borderRadius: BorderRadius.circular(12),
                     color: Color.fromARGB(255, 255, 81, 0)),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResultScreen(
+                                totalQuestions: tq, rightAnswers: ca)));
+                  },
                   child: Text(
                     "Submit",
                     style: TextStyle(
