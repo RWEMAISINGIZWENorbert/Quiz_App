@@ -158,19 +158,29 @@ class _QuizScreenState extends State<QuizScreen> {
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Column(children: [
-                  OptionField('A', option1),
+                  OptionField(
+                      'A',
+                      widget.QandAnsList[questionCounter].Answers[0]
+                          .toString()),
                   SizedBox(
                     height: 7,
                   ),
-                  OptionField('B', option2),
+                  OptionField(
+                      'B',
+                      widget.QandAnsList[questionCounter].Answers[1]
+                          .toString()),
                   SizedBox(
                     height: 7,
                   ),
-                  OptionField('C', option3),
+                  OptionField(
+                      'C',
+                      widget.QandAnsList[questionCounter].Answers[2]
+                          .toString()),
                   SizedBox(
                     height: 7,
                   ),
-                  OptionField('D', option4)
+                  OptionField('D',
+                      widget.QandAnsList[questionCounter].Answers[2].toString())
                 ]),
               ),
               Container(
