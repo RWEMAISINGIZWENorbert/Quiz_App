@@ -19,26 +19,70 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<QuestionAndAnswer> qAndAns = [
     QuestionAndAnswer(
-        Question: 'What talent would you show off in a talent show?',
+        Question: 'Who wrote Charlie and the Chocolate Factory??',
         Answers: [
-          'Despite multiple complications and her near-death experience',
-          'Had he known what was going to happen, he would have never stepped into the shower.',
-          'I\'m a great listener, really good with empathy vs sympathy and all that, but I hate people.'
-        ]),
+          'Mark Wiens',
+          'Roald Dahl',
+          'William Crawford',
+          'Terrence Lewis'
+        ],
+        CorrectAnswer: 'Roald Dahl'),
     QuestionAndAnswer(
-        Question: 'What talent would you show off in a talent show?',
+        Question:
+            'The Mona Lisa by Leonardo da Vinci is on display in which Paris museum?',
         Answers: [
-          'Despite multiple complications and her near-death experience',
-          'Had he known what was going to happen, he would have never stepped into the shower.',
-          'I\'m a great listener, really good with empathy vs sympathy and all that, but I hate people.'
-        ]),
+          'The Louvre',
+          'The British Museum',
+          'Mauritshius',
+          'Taxila Museum'
+        ],
+        CorrectAnswer: 'The Louvre'),
     QuestionAndAnswer(
-        Question: 'What talent would you show off in a talent show?',
+        Question: 'How many lines are there in a sonnet?',
+        Answers: ['5', '12', '14', '9'],
+        CorrectAnswer: '14'),
+    QuestionAndAnswer(
+        Question:
+            'In childrens literature, what kind of animal is Mrs Tiggy-Winkle?',
+        Answers: ['Hedgehog', 'Lion', 'Buffalo', 'Sqirrel'],
+        CorrectAnswer: 'Hedgehog'),
+    QuestionAndAnswer(
+        Question:
+            'Horatio, Ophelia and Gertrude are characters in which William Shakespeare tragedy?',
+        Answers: ['Macbeth', 'Romeo & Juliet', 'Hamlet', 'The Tempest'],
+        CorrectAnswer: 'Hamlet'),
+    QuestionAndAnswer(
+        Question:
+            'What was the first James Bond novel to be published by Ian Fleming?',
         Answers: [
-          'Despite multiple complications and her near-death experience',
-          'Had he known what was going to happen, he would have never stepped into the shower.',
-          'I\'m a great listener, really good with empathy vs sympathy and all that, but I hate people.'
-        ]),
+          'Live and Let Die',
+          'Casino Royale',
+          'Moonraker',
+          'Diamonds are Forever'
+        ],
+        CorrectAnswer: 'Casino Royale'),
+    QuestionAndAnswer(
+        Question:
+            'Which animal is the mascot of Hufflepuff house in the Harry Potter series?',
+        Answers: ['Dog', 'Polar Bear', 'Rat', 'Badger'],
+        CorrectAnswer: 'Badger'),
+    QuestionAndAnswer(
+        Question: 'In which country was Frida Kahlo born?',
+        Answers: ['Mexico', 'France', 'Germany', 'Spain'],
+        CorrectAnswer: 'Mexico'),
+    QuestionAndAnswer(
+        Question: 'Who illustrated Roald Dahls books?',
+        Answers: [
+          'JK Rowling',
+          'Quentin Blake',
+          'Richard Corben',
+          'Mark Hughes'
+        ],
+        CorrectAnswer: 'Quentin Blake'),
+    QuestionAndAnswer(
+        Question: 'In which European city is the Prado Art Gallery?',
+        Answers: ['Madrid', 'Berlin', 'Rome', 'Paris'],
+        CorrectAnswer: 'Madrid'),
   ];
 
   @override

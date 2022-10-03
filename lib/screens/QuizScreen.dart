@@ -25,7 +25,7 @@ class _QuizScreenState extends State<QuizScreen> {
   String option3 = 'Maybe';
   String option4 = 'Nevermind';
   var tq = 60;
-  var ca = 58;
+  var ca = 8;
 
   var questionCounter = 0;
 
@@ -158,29 +158,79 @@ class _QuizScreenState extends State<QuizScreen> {
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Column(children: [
-                  OptionField(
-                      'A',
-                      widget.QandAnsList[questionCounter].Answers[0]
-                          .toString()),
+                  InkWell(
+                    onTap: () {
+                      if (questionCounter == questionMaxLength - 1) {
+                        openDialog('Quiz Completed!',
+                            'Click on the Submit button below to see the Result');
+                      } else {
+                        setState(() {
+                          questionCounter++;
+                        });
+                      }
+                    },
+                    child: OptionField(
+                        'A',
+                        widget.QandAnsList[questionCounter].Answers[0]
+                            .toString()),
+                  ),
                   SizedBox(
                     height: 7,
                   ),
-                  OptionField(
-                      'B',
-                      widget.QandAnsList[questionCounter].Answers[1]
-                          .toString()),
+                  InkWell(
+                    onTap: () {
+                      if (questionCounter == questionMaxLength - 1) {
+                        openDialog('Quiz Completed!',
+                            'Click on the Submit button below to see the Result');
+                      } else {
+                        setState(() {
+                          questionCounter++;
+                        });
+                      }
+                    },
+                    child: OptionField(
+                        'B',
+                        widget.QandAnsList[questionCounter].Answers[1]
+                            .toString()),
+                  ),
                   SizedBox(
                     height: 7,
                   ),
-                  OptionField(
-                      'C',
-                      widget.QandAnsList[questionCounter].Answers[2]
-                          .toString()),
+                  InkWell(
+                    onTap: () {
+                      if (questionCounter == questionMaxLength - 1) {
+                        openDialog('Quiz Completed!',
+                            'Click on the Submit button below to see the Result');
+                      } else {
+                        setState(() {
+                          questionCounter++;
+                        });
+                      }
+                    },
+                    child: OptionField(
+                        'C',
+                        widget.QandAnsList[questionCounter].Answers[2]
+                            .toString()),
+                  ),
                   SizedBox(
                     height: 7,
                   ),
-                  OptionField('D',
-                      widget.QandAnsList[questionCounter].Answers[2].toString())
+                  InkWell(
+                    onTap: () {
+                      if (questionCounter == questionMaxLength - 1) {
+                        openDialog('Quiz Completed!',
+                            'Click on the Submit button below to see the Result');
+                      } else {
+                        setState(() {
+                          questionCounter++;
+                        });
+                      }
+                    },
+                    child: OptionField(
+                        'D',
+                        widget.QandAnsList[questionCounter].Answers[3]
+                            .toString()),
+                  )
                 ]),
               ),
               Container(
@@ -197,13 +247,13 @@ class _QuizScreenState extends State<QuizScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ResultScreen(
-                              totalQuestions: tq, rightAnswers: ca),
+                              totalQuestions: questionCounter,
+                              rightAnswers: ca),
                         ),
                       );
                     } else {
-                      setState(() {
-                        questionCounter++;
-                      });
+                      openDialog('Quiz Incomplete',
+                          'Complete the quiz and then hit the Submit Button');
                     }
                   },
                   child: Text(
@@ -261,33 +311,21 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
           ]),
         ));
-    /* RichText(
-          text: TextSpan(children: [
-        WidgetSpan(
-            child: Padding(
-          padding: EdgeInsets.fromLTRB(10, 6, 0, 0),
-          child: Container(
-            alignment: Alignment.center,
-            height: MediaQuery.of(context).size.height * 0.055,
-            width: MediaQuery.of(context).size.height * 0.055,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: Color.fromARGB(255, 255, 123, 0)),
-            child: Text(
-              '$a',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        )),
-        TextSpan(
-            text: '  $b',
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold)),
-      ])),*/
   }
+
+  Future openDialog(String a, String b) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('$a'),
+          content: Text("$b"),
+          actions: [
+            TextButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        ),
+      );
 }
