@@ -25,7 +25,7 @@ class _QuizScreenState extends State<QuizScreen> {
   String option3 = 'Maybe';
   String option4 = 'Nevermind';
   var tq = 60;
-  var ca = 8;
+  var ca = 0;
 
   var questionCounter = 0;
 
@@ -160,6 +160,10 @@ class _QuizScreenState extends State<QuizScreen> {
                 child: Column(children: [
                   InkWell(
                     onTap: () {
+                      if (widget.QandAnsList[questionCounter].Answers[0] ==
+                          widget.QandAnsList[questionCounter].CorrectAnswer) {
+                        ca++;
+                      }
                       if (questionCounter == questionMaxLength - 1) {
                         openDialog('Quiz Completed!',
                             'Click on the Submit button below to see the Result');
@@ -179,6 +183,10 @@ class _QuizScreenState extends State<QuizScreen> {
                   ),
                   InkWell(
                     onTap: () {
+                      if (widget.QandAnsList[questionCounter].Answers[1] ==
+                          widget.QandAnsList[questionCounter].CorrectAnswer) {
+                        ca++;
+                      }
                       if (questionCounter == questionMaxLength - 1) {
                         openDialog('Quiz Completed!',
                             'Click on the Submit button below to see the Result');
@@ -198,6 +206,10 @@ class _QuizScreenState extends State<QuizScreen> {
                   ),
                   InkWell(
                     onTap: () {
+                      if (widget.QandAnsList[questionCounter].Answers[2] ==
+                          widget.QandAnsList[questionCounter].CorrectAnswer) {
+                        ca++;
+                      }
                       if (questionCounter == questionMaxLength - 1) {
                         openDialog('Quiz Completed!',
                             'Click on the Submit button below to see the Result');
@@ -217,6 +229,10 @@ class _QuizScreenState extends State<QuizScreen> {
                   ),
                   InkWell(
                     onTap: () {
+                      if (widget.QandAnsList[questionCounter].Answers[3] ==
+                          widget.QandAnsList[questionCounter].CorrectAnswer) {
+                        ca++;
+                      }
                       if (questionCounter == questionMaxLength - 1) {
                         openDialog('Quiz Completed!',
                             'Click on the Submit button below to see the Result');
@@ -247,7 +263,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ResultScreen(
-                              totalQuestions: questionCounter,
+                              totalQuestions: questionCounter + 1,
                               rightAnswers: ca),
                         ),
                       );
