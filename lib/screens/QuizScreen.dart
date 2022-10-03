@@ -26,8 +26,20 @@ class _QuizScreenState extends State<QuizScreen> {
   String option4 = 'D';
   var tq = 60;
   var ca = 58;
+
+  var questionCounter = 0;
+
   @override
   Widget build(BuildContext context) {
+    var questionMaxLength = widget.QandAnsList.length;
+    print(questionMaxLength);
+
+    var question = widget.QandAnsList[questionCounter].Question;
+
+    setState(() {
+      question = widget.QandAnsList[questionCounter].Question;
+    });
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -82,7 +94,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Quiz :' + ' 60',
+                      'Quiz : ' + questionMaxLength.toString(),
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                     CircularCountDownTimer(
@@ -135,7 +147,7 @@ class _QuizScreenState extends State<QuizScreen> {
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Text(
-                  "1. What is one of the great values that guides your life? ",
+                  question,
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
@@ -169,11 +181,20 @@ class _QuizScreenState extends State<QuizScreen> {
                     color: Color.fromARGB(255, 255, 81, 0)),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
+                    print('Value of question: $questionCounter');
+                    if (questionCounter == questionMaxLength - 1) {
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ResultScreen(
-                                totalQuestions: tq, rightAnswers: ca)));
+                          builder: (context) => ResultScreen(
+                              totalQuestions: tq, rightAnswers: ca),
+                        ),
+                      );
+                    } else {
+                      setState(() {
+                        questionCounter++;
+                      });
+                    }
                   },
                   child: Text(
                     "Submit",
@@ -201,27 +222,34 @@ class _QuizScreenState extends State<QuizScreen> {
         color: Colors.white,
       ),
       child: RichText(
-          text: TextSpan(children: [
-        WidgetSpan(
+        text: TextSpan(children: [
+          WidgetSpan(
             child: Padding(
-          padding: EdgeInsets.fromLTRB(10, 6, 0, 0),
-          child: Container(
-            alignment: Alignment.center,
-            height: MediaQuery.of(context).size.height * 0.055,
-            width: MediaQuery.of(context).size.height * 0.055,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: Color.fromARGB(255, 255, 123, 0)),
-            child: Text(
-              '$a',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
+              padding: EdgeInsets.fromLTRB(10, 6, 0, 0),
+              child: Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height * 0.055,
+                width: MediaQuery.of(context).size.height * 0.055,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Color.fromARGB(255, 255, 123, 0)),
+                child: Text(
+                  '$a',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
           ),
-        ))
-      ])),
+          WidgetSpan(
+              child: Center(
+            child: Container(
+                child: Text(widget.QandAnsList[0].Answers.toString())),
+          ))
+        ]),
+      ),
     );
   }
 }
