@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -24,7 +26,8 @@ class _QuizScreenState extends State<QuizScreen> {
   String option2 = 'No';
   String option3 = 'Maybe';
   String option4 = 'Nevermind';
-  var tq = 60;
+  Color optionColor = Colors.white;
+
   var ca = 0;
 
   var questionCounter = 0;
@@ -162,21 +165,28 @@ class _QuizScreenState extends State<QuizScreen> {
                     onTap: () {
                       if (widget.QandAnsList[questionCounter].Answers[0] ==
                           widget.QandAnsList[questionCounter].CorrectAnswer) {
+                        setState(() {
+                          optionColor = Colors.green;
+                        });
                         ca++;
-                      }
+                      } else
+                        optionColor = Colors.red;
+
                       if (questionCounter == questionMaxLength - 1) {
                         openDialog('Quiz Completed!',
                             'Click on the Submit button below to see the Result');
                       } else {
                         setState(() {
                           questionCounter++;
+                          // optionColor = Colors.white;
                         });
                       }
                     },
                     child: OptionField(
                         'A',
                         widget.QandAnsList[questionCounter].Answers[0]
-                            .toString()),
+                            .toString(),
+                        UniqueKey()),
                   ),
                   SizedBox(
                     height: 7,
@@ -199,7 +209,8 @@ class _QuizScreenState extends State<QuizScreen> {
                     child: OptionField(
                         'B',
                         widget.QandAnsList[questionCounter].Answers[1]
-                            .toString()),
+                            .toString(),
+                        UniqueKey()),
                   ),
                   SizedBox(
                     height: 7,
@@ -222,7 +233,8 @@ class _QuizScreenState extends State<QuizScreen> {
                     child: OptionField(
                         'C',
                         widget.QandAnsList[questionCounter].Answers[2]
-                            .toString()),
+                            .toString(),
+                        UniqueKey()),
                   ),
                   SizedBox(
                     height: 7,
@@ -245,7 +257,8 @@ class _QuizScreenState extends State<QuizScreen> {
                     child: OptionField(
                         'D',
                         widget.QandAnsList[questionCounter].Answers[3]
-                            .toString()),
+                            .toString(),
+                        UniqueKey()),
                   )
                 ]),
               ),
@@ -289,13 +302,15 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget OptionField(String a, String b) {
-    return Container(
+  Widget OptionField(String a, String b, Key _key) {
+    return AnimatedContainer(
+        key: _key,
+        duration: Duration(seconds: 1),
         height: MediaQuery.of(context).size.height * 0.07,
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(28),
-          color: Colors.white,
+          color: optionColor,
         ),
         child: Padding(
           padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
