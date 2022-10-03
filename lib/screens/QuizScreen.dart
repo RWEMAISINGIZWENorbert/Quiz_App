@@ -20,10 +20,10 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  String option1 = 'A';
-  String option2 = 'B';
-  String option3 = 'C';
-  String option4 = 'D';
+  String option1 = 'Yes';
+  String option2 = 'No';
+  String option3 = 'Maybe';
+  String option4 = 'Nevermind';
   var tq = 60;
   var ca = 58;
 
@@ -158,19 +158,19 @@ class _QuizScreenState extends State<QuizScreen> {
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Column(children: [
-                  OptionField(option1),
+                  OptionField('A', option1),
                   SizedBox(
                     height: 7,
                   ),
-                  OptionField(option2),
+                  OptionField('B', option2),
                   SizedBox(
                     height: 7,
                   ),
-                  OptionField(option3),
+                  OptionField('C', option3),
                   SizedBox(
                     height: 7,
                   ),
-                  OptionField(option4)
+                  OptionField('D', option4)
                 ]),
               ),
               Container(
@@ -213,43 +213,71 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget OptionField(String a) {
+  Widget OptionField(String a, String b) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.07,
-      width: MediaQuery.of(context).size.width * 0.9,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
-        color: Colors.white,
-      ),
-      child: RichText(
-        text: TextSpan(children: [
-          WidgetSpan(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(10, 6, 0, 0),
-              child: Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * 0.055,
-                width: MediaQuery.of(context).size.height * 0.055,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Color.fromARGB(255, 255, 123, 0)),
-                child: Text(
-                  '$a',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
-                ),
+        height: MediaQuery.of(context).size.height * 0.07,
+        width: MediaQuery.of(context).size.width * 0.9,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(28),
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+          child: Row(children: [
+            Container(
+              alignment: Alignment.center,
+              height: MediaQuery.of(context).size.height * 0.055,
+              width: MediaQuery.of(context).size.height * 0.055,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: Color.fromARGB(255, 255, 123, 0)),
+              child: Text(
+                '$a',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
               ),
             ),
+            SizedBox(
+              width: 15,
+            ),
+            Text(
+              '$b',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+          ]),
+        ));
+    /* RichText(
+          text: TextSpan(children: [
+        WidgetSpan(
+            child: Padding(
+          padding: EdgeInsets.fromLTRB(10, 6, 0, 0),
+          child: Container(
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * 0.055,
+            width: MediaQuery.of(context).size.height * 0.055,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Color.fromARGB(255, 255, 123, 0)),
+            child: Text(
+              '$a',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
-          WidgetSpan(
-              child: Center(
-            child: Container(
-                child: Text(widget.QandAnsList[0].Answers.toString())),
-          ))
-        ]),
-      ),
-    );
+        )),
+        TextSpan(
+            text: '  $b',
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold)),
+      ])),*/
   }
 }
