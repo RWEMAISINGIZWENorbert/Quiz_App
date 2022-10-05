@@ -28,6 +28,8 @@ class _QuizScreenState extends State<QuizScreen> {
   String option4 = 'Nevermind';
   Color optionColor = Colors.white;
 
+  bool isPressed = false;
+  bool isCorrect = false;
   var ca = 0;
 
   var questionCounter = 0;
@@ -42,6 +44,10 @@ class _QuizScreenState extends State<QuizScreen> {
     setState(() {
       question = widget.QandAnsList[questionCounter].Question;
     });
+
+    void onT() {
+      print('working ON T');
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -124,13 +130,13 @@ class _QuizScreenState extends State<QuizScreen> {
                       isTimerTextShown: true,
                       autoStart: true,
                       onStart: () {
-                        debugPrint('Countdown Started');
+                        //debugPrint('Countdown Started');
                       },
                       onComplete: () {
-                        debugPrint('Countdown Ended');
+                        // debugPrint('Countdown Ended');
                       },
                       onChange: (String timeStamp) {
-                        debugPrint('Countdown Changed $timeStamp');
+                        //debugPrint('Countdown Changed $timeStamp');
                       },
                     ),
                   ],
@@ -162,103 +168,71 @@ class _QuizScreenState extends State<QuizScreen> {
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Column(children: [
                   InkWell(
-                    onTap: () {
-                      if (widget.QandAnsList[questionCounter].Answers[0] ==
-                          widget.QandAnsList[questionCounter].CorrectAnswer) {
-                        setState(() {
-                          optionColor = Colors.green;
-                        });
-                        ca++;
-                      } else
-                        optionColor = Colors.red;
-
-                      if (questionCounter == questionMaxLength - 1) {
-                        openDialog('Quiz Completed!',
-                            'Click on the Submit button below to see the Result');
-                      } else {
-                        setState(() {
-                          questionCounter++;
-                          // optionColor = Colors.white;
-                        });
-                      }
-                    },
                     child: OptionField(
                         'A',
                         widget.QandAnsList[questionCounter].Answers[0]
                             .toString(),
-                        UniqueKey()),
+                        UniqueKey(),
+                        onT,
+                        questionMaxLength,
+                        isPressed,
+                        isCorrect),
                   ),
                   SizedBox(
                     height: 7,
                   ),
                   InkWell(
-                    onTap: () {
-                      if (widget.QandAnsList[questionCounter].Answers[1] ==
-                          widget.QandAnsList[questionCounter].CorrectAnswer) {
-                        ca++;
-                      }
-                      if (questionCounter == questionMaxLength - 1) {
-                        openDialog('Quiz Completed!',
-                            'Click on the Submit button below to see the Result');
-                      } else {
-                        setState(() {
-                          questionCounter++;
-                        });
-                      }
-                    },
                     child: OptionField(
                         'B',
                         widget.QandAnsList[questionCounter].Answers[1]
                             .toString(),
-                        UniqueKey()),
+                        UniqueKey(),
+                        onT,
+                        questionMaxLength,
+                        isPressed,
+                        isCorrect),
                   ),
                   SizedBox(
                     height: 7,
                   ),
                   InkWell(
-                    onTap: () {
-                      if (widget.QandAnsList[questionCounter].Answers[2] ==
-                          widget.QandAnsList[questionCounter].CorrectAnswer) {
-                        ca++;
-                      }
-                      if (questionCounter == questionMaxLength - 1) {
-                        openDialog('Quiz Completed!',
-                            'Click on the Submit button below to see the Result');
-                      } else {
-                        setState(() {
-                          questionCounter++;
-                        });
-                      }
-                    },
                     child: OptionField(
                         'C',
                         widget.QandAnsList[questionCounter].Answers[2]
                             .toString(),
-                        UniqueKey()),
+                        UniqueKey(),
+                        onT,
+                        questionMaxLength,
+                        isPressed,
+                        isCorrect),
                   ),
                   SizedBox(
                     height: 7,
                   ),
                   InkWell(
-                    onTap: () {
-                      if (widget.QandAnsList[questionCounter].Answers[3] ==
-                          widget.QandAnsList[questionCounter].CorrectAnswer) {
-                        ca++;
-                      }
-                      if (questionCounter == questionMaxLength - 1) {
-                        openDialog('Quiz Completed!',
-                            'Click on the Submit button below to see the Result');
-                      } else {
-                        setState(() {
-                          questionCounter++;
-                        });
-                      }
-                    },
+                    // onTap: () {
+                    //   if (widget.QandAnsList[questionCounter].Answers[3] ==
+                    //       widget.QandAnsList[questionCounter].CorrectAnswer) {
+                    //     ca++;
+                    //   }
+                    //   if (questionCounter == questionMaxLength - 1) {
+                    //     openDialog('Quiz Completed!',
+                    //         'Click on the Submit button below to see the Result');
+                    //   } else {
+                    //     setState(() {
+                    //       questionCounter++;
+                    //     });
+                    //   }
+                    // },
                     child: OptionField(
                         'D',
                         widget.QandAnsList[questionCounter].Answers[3]
                             .toString(),
-                        UniqueKey()),
+                        UniqueKey(),
+                        onT,
+                        questionMaxLength,
+                        isPressed,
+                        isCorrect),
                   )
                 ]),
               ),
@@ -302,46 +276,81 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget OptionField(String a, String b, Key _key) {
-    return AnimatedContainer(
-        key: _key,
-        duration: Duration(seconds: 1),
-        height: MediaQuery.of(context).size.height * 0.07,
-        width: MediaQuery.of(context).size.width * 0.9,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
-          color: optionColor,
-        ),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-          child: Row(children: [
-            Container(
-              alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height * 0.055,
-              width: MediaQuery.of(context).size.height * 0.055,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Color.fromARGB(255, 255, 123, 0)),
-              child: Text(
-                '$a',
+  Widget OptionField(String a, String b, Key _key, VoidCallback onT,
+      int questionMaxLength, bool isPressed, bool isCorrect) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isCorrect = false;
+          isPressed = true;
+        });
+        print(
+            'pressed at $b and ${widget.QandAnsList[questionCounter].CorrectAnswer} ');
+        print('isPressed :$isPressed  and  isCorrect: $isCorrect');
+
+        if (b == widget.QandAnsList[questionCounter].CorrectAnswer) {
+          setState(() {
+            isCorrect = true;
+          });
+          ca++;
+
+          print(
+              'We are here  in $b = $widget.QandAnsList[questionCounter].CorrectAnswer ');
+          print('isPressed :$isPressed  and  isCorrect: $isCorrect');
+        }
+        if (questionCounter == questionMaxLength - 1) {
+          openDialog('Quiz Completed!',
+              'Click on the Submit button below to see the Result');
+        } else {
+          setState(() {
+            questionCounter++;
+          });
+        }
+      },
+      child: AnimatedContainer(
+          key: _key,
+          duration: Duration(seconds: 1),
+          height: MediaQuery.of(context).size.height * 0.07,
+          width: MediaQuery.of(context).size.width * 0.9,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              color: isPressed
+                  ? b == widget.QandAnsList[questionCounter].CorrectAnswer &&
+                          isCorrect == true
+                      ? Colors.green
+                      : Colors.red
+                  : Colors.white),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+            child: Row(children: [
+              Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height * 0.055,
+                width: MediaQuery.of(context).size.height * 0.055,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Color.fromARGB(255, 255, 123, 0)),
+                child: Text(
+                  '$a',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                width: 15,
+              ),
+              Text(
+                '$b',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
+                    color: Colors.black,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Text(
-              '$b',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-          ]),
-        ));
+            ]),
+          )),
+    );
   }
 
   Future openDialog(String a, String b) => showDialog(
