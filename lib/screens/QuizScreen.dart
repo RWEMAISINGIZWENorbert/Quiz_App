@@ -32,6 +32,7 @@ class _QuizScreenState extends State<QuizScreen> {
   bool isCorrect = false;
   var ca = 0;
 
+  List<bool> _list = [true, false, true, false];
   var questionCounter = 0;
 
   @override
@@ -233,10 +234,35 @@ class _QuizScreenState extends State<QuizScreen> {
                         questionMaxLength,
                         isPressed,
                         isCorrect),
-                  )
+                  ),
+                  Expanded(
+                      child: ListView.separated(
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              height: 50,
+                              color: Colors.white,
+                              child: Center(
+                                  child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: _list[index]
+                                        ? Colors.green
+                                        : Colors.red),
+                                onPressed: () {
+                                  setState(() {
+                                    _list[index] = !_list[index];
+                                  });
+                                },
+                                child: Text('${_list[index]}'),
+                              )),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) =>
+                              Divider(),
+                          itemCount: _list.length)),
                 ]),
               ),
               Container(
+                margin: EdgeInsets.only(top: 40),
                 height: MediaQuery.of(context).size.height * 0.07,
                 width: MediaQuery.of(context).size.width * 0.85,
                 decoration: BoxDecoration(
@@ -280,18 +306,23 @@ class _QuizScreenState extends State<QuizScreen> {
       int questionMaxLength, bool isPressed, bool isCorrect) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          isCorrect = false;
-          isPressed = true;
-        });
+        if (b == widget.QandAnsList[questionCounter].CorrectAnswer) {
+          setState(() {
+            isCorrect = true;
+            isPressed = true;
+          });
+        } else {
+          setState(() {
+            isCorrect = false;
+            isPressed = true;
+          });
+        }
+
         print(
             'pressed at $b and ${widget.QandAnsList[questionCounter].CorrectAnswer} ');
         print('isPressed :$isPressed  and  isCorrect: $isCorrect');
 
         if (b == widget.QandAnsList[questionCounter].CorrectAnswer) {
-          setState(() {
-            isCorrect = true;
-          });
           ca++;
 
           print(
@@ -302,53 +333,58 @@ class _QuizScreenState extends State<QuizScreen> {
           openDialog('Quiz Completed!',
               'Click on the Submit button below to see the Result');
         } else {
-          setState(() {
-            questionCounter++;
+          Future.delayed(const Duration(milliseconds: 500), () {
+// Here you can write your code
+
+            setState(() {
+              questionCounter++;
+            });
           });
         }
       },
       child: AnimatedContainer(
           key: _key,
-          duration: Duration(seconds: 1),
+          duration: Duration(seconds: 0),
           height: MediaQuery.of(context).size.height * 0.07,
           width: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(28),
               color: isPressed
-                  ? b == widget.QandAnsList[questionCounter].CorrectAnswer &&
-                          isCorrect == true
+                  ? isCorrect
                       ? Colors.green
                       : Colors.red
                   : Colors.white),
           child: Padding(
             padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-            child: Row(children: [
-              Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * 0.055,
-                width: MediaQuery.of(context).size.height * 0.055,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Color.fromARGB(255, 255, 123, 0)),
-                child: Text(
-                  '$a',
+            child: Row(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height * 0.055,
+                  width: MediaQuery.of(context).size.height * 0.055,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Color.fromARGB(255, 255, 123, 0)),
+                  child: Text(
+                    '$a',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(
+                  '$b',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
+                      color: Colors.black,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Text(
-                '$b',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              ),
-            ]),
+              ],
+            ),
           )),
     );
   }
