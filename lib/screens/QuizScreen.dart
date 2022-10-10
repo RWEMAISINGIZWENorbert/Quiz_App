@@ -12,7 +12,11 @@ import 'package:quiz_app/utils/GlobalColors.dart';
 class QuizScreen extends StatefulWidget {
   // const QuizScreen({super.key});
   final String heading;
+<<<<<<< HEAD
   static const String RemoveMe = 'REMOVE ME ';
+=======
+  static const String RemoveMe = 'REMOVE ME';
+>>>>>>> d7a44abc66f971dcc302b42b22bc714531e11255
   final List<QuestionAndAnswer> QandAnsList;
 
   const QuizScreen({Key? key, required this.heading, required this.QandAnsList})
