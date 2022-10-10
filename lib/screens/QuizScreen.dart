@@ -12,6 +12,7 @@ import 'package:quiz_app/utils/GlobalColors.dart';
 class QuizScreen extends StatefulWidget {
   // const QuizScreen({super.key});
   final String heading;
+  static const String RemoveMe = 'REMOVE ME ';
   final List<QuestionAndAnswer> QandAnsList;
 
   const QuizScreen({Key? key, required this.heading, required this.QandAnsList})
@@ -23,7 +24,8 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   Color optionColor = Colors.white;
-
+  List<String> option = ['A', 'B', 'C', 'D'];
+  int isCorrect = 0;
   var ca = 0;
 
   var questionCounter = 0;
@@ -154,10 +156,10 @@ class _QuizScreenState extends State<QuizScreen> {
                 height: 30,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.4,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Column(children: [
-                  InkWell(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child:
+                      /* InkWell(
                     onTap: () {
                       if (widget.QandAnsList[questionCounter].Answers[0] ==
                           widget.QandAnsList[questionCounter].CorrectAnswer) {
@@ -167,7 +169,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         ca++;
                       } else
                         optionColor = Colors.red;
-
+              
                       if (questionCounter == questionMaxLength - 1) {
                         openDialog('Quiz Completed!',
                             'Click on the Submit button below to see the Result');
@@ -255,9 +257,62 @@ class _QuizScreenState extends State<QuizScreen> {
                         widget.QandAnsList[questionCounter].Answers[3]
                             .toString(),
                         UniqueKey()),
-                  )
-                ]),
-              ),
+                  )*/
+                      Expanded(
+                    child: Column(
+                      children: [
+                        ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: 4,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                              height: 7,
+                            );
+                          },
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                if (widget.QandAnsList[questionCounter]
+                                        .Answers[index] ==
+                                    widget.QandAnsList[questionCounter]
+                                        .CorrectAnswer) {
+                                  setState(() {
+                                    isCorrect = 1;
+                                  });
+
+                                  ca++;
+                                } else {
+                                  setState(() {
+                                    isCorrect = 2;
+                                  });
+                                }
+
+                                if (questionCounter == questionMaxLength - 1) {
+                                  openDialog('Quiz Completed!',
+                                      'Click on the Submit button below to see the Result');
+                                } else {
+                                  Timer(
+                                      const Duration(seconds: 2),
+                                      () => setState(() {
+                                            questionCounter++;
+                                            isCorrect = 0;
+                                            // optionColor = Colors.white;
+                                          }));
+                                }
+                              },
+                              child: OptionField(
+                                  option[index],
+                                  widget.QandAnsList[questionCounter]
+                                      .Answers[index],
+                                  UniqueKey(),
+                                  isCorrect),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  )),
               Container(
                 height: MediaQuery.of(context).size.height * 0.07,
                 width: MediaQuery.of(context).size.width * 0.85,
@@ -298,16 +353,19 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget OptionField(String a, String b, Key key) {
+  Widget OptionField(String a, String b, Key key, int s) {
     return AnimatedContainer(
         key: key,
         duration: Duration(seconds: 1),
         height: MediaQuery.of(context).size.height * 0.07,
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
-          color: optionColor,
-        ),
+            borderRadius: BorderRadius.circular(28),
+            color: (s == 1)
+                ? Colors.green
+                : (s == 2)
+                    ? Colors.red
+                    : Colors.white),
         child: Padding(
           padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
           child: Row(children: [
