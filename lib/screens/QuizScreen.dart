@@ -12,11 +12,7 @@ import 'package:quiz_app/utils/GlobalColors.dart';
 class QuizScreen extends StatefulWidget {
   // const QuizScreen({super.key});
   final String heading;
-<<<<<<< HEAD
-  static const String RemoveMe = 'REMOVE ME ';
-=======
   static const String RemoveMe = 'REMOVE ME';
->>>>>>> d7a44abc66f971dcc302b42b22bc714531e11255
   final List<QuestionAndAnswer> QandAnsList;
 
   const QuizScreen({Key? key, required this.heading, required this.QandAnsList})
@@ -275,43 +271,14 @@ class _QuizScreenState extends State<QuizScreen> {
                             );
                           },
                           itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                if (widget.QandAnsList[questionCounter]
-                                        .Answers[index] ==
-                                    widget.QandAnsList[questionCounter]
-                                        .CorrectAnswer) {
-                                  setState(() {
-                                    isCorrect = 1;
-                                  });
-
-                                  ca++;
-                                } else {
-                                  setState(() {
-                                    isCorrect = 2;
-                                  });
-                                }
-
-                                if (questionCounter == questionMaxLength - 1) {
-                                  openDialog('Quiz Completed!',
-                                      'Click on the Submit button below to see the Result');
-                                } else {
-                                  Timer(
-                                      const Duration(seconds: 2),
-                                      () => setState(() {
-                                            questionCounter++;
-                                            isCorrect = 0;
-                                            // optionColor = Colors.white;
-                                          }));
-                                }
-                              },
-                              child: OptionField(
-                                  option[index],
-                                  widget.QandAnsList[questionCounter]
-                                      .Answers[index],
-                                  UniqueKey(),
-                                  isCorrect),
-                            );
+                            return OptionField(
+                                option[index],
+                                widget.QandAnsList[questionCounter]
+                                    .Answers[index],
+                                UniqueKey(),
+                                isCorrect,
+                                index,
+                                widget.QandAnsList[index].color);
                           },
                         )
                       ],
@@ -357,49 +324,60 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget OptionField(String a, String b, Key key, int s) {
-    return AnimatedContainer(
-        key: key,
-        duration: Duration(seconds: 1),
-        height: MediaQuery.of(context).size.height * 0.07,
-        width: MediaQuery.of(context).size.width * 0.9,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28),
-            color: (s == 1)
-                ? Colors.green
-                : (s == 2)
-                    ? Colors.red
-                    : Colors.white),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-          child: Row(children: [
-            Container(
-              alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height * 0.055,
-              width: MediaQuery.of(context).size.height * 0.055,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Color.fromARGB(255, 255, 123, 0)),
-              child: Text(
-                '$a',
+  Widget OptionField(
+      String a, String b, Key key, int s, int index, Color color) {
+    return GestureDetector(
+      onTap: () {
+        print(
+            'b is $b and correct answer is ${widget.QandAnsList[index].CorrectAnswer}');
+        setState(() {
+          if (widget.QandAnsList[index].CorrectAnswer == b) {
+            widget.QandAnsList[index].color = Colors.green;
+          } else {
+            widget.QandAnsList[index].color = Colors.red;
+          }
+
+          print('pressed on $a at $index');
+        });
+      },
+      child: AnimatedContainer(
+          key: key,
+          duration: Duration(seconds: 1),
+          height: MediaQuery.of(context).size.height * 0.07,
+          width: MediaQuery.of(context).size.width * 0.9,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28), color: color),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+            child: Row(children: [
+              Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height * 0.055,
+                width: MediaQuery.of(context).size.height * 0.055,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Color.fromARGB(255, 255, 123, 0)),
+                child: Text(
+                  '$a',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                width: 15,
+              ),
+              Text(
+                '$b',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
+                    color: Colors.black,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Text(
-              '$b',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-          ]),
-        ));
+            ]),
+          )),
+    );
   }
 
   Future openDialog(String a, String b) => showDialog(

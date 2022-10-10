@@ -26,7 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
           'William Crawford',
           'Terrence Lewis'
         ],
-        CorrectAnswer: 'Roald Dahl'),
+        CorrectAnswer: 'Roald Dahl',
+        color: Colors.white),
     QuestionAndAnswer(
         Question:
             'The Mona Lisa by Leonardo da Vinci is on display in which Paris museum?',
@@ -36,21 +37,25 @@ class _HomeScreenState extends State<HomeScreen> {
           'Mauritshius',
           'Taxila Museum'
         ],
-        CorrectAnswer: 'The Louvre'),
+        CorrectAnswer: 'The Louvre',
+        color: Colors.white),
     QuestionAndAnswer(
         Question: 'How many lines are there in a sonnet?',
         Answers: ['5', '12', '14', '9'],
-        CorrectAnswer: '14'),
+        CorrectAnswer: '14',
+        color: Colors.white),
     QuestionAndAnswer(
         Question:
             'In childrens literature, what kind of animal is Mrs Tiggy-Winkle?',
         Answers: ['Hedgehog', 'Lion', 'Buffalo', 'Sqirrel'],
-        CorrectAnswer: 'Hedgehog'),
+        CorrectAnswer: 'Hedgehog',
+        color: Colors.white),
     QuestionAndAnswer(
         Question:
             'Horatio, Ophelia and Gertrude are characters in which William Shakespeare tragedy?',
         Answers: ['Macbeth', 'Romeo & Juliet', 'Hamlet', 'The Tempest'],
-        CorrectAnswer: 'Hamlet'),
+        CorrectAnswer: 'Hamlet',
+        color: Colors.white),
     QuestionAndAnswer(
         Question:
             'What was the first James Bond novel to be published by Ian Fleming?',
@@ -60,16 +65,19 @@ class _HomeScreenState extends State<HomeScreen> {
           'Moonraker',
           'Diamonds are Forever'
         ],
-        CorrectAnswer: 'Casino Royale'),
+        CorrectAnswer: 'Casino Royale',
+        color: Colors.white),
     QuestionAndAnswer(
         Question:
             'Which animal is the mascot of Hufflepuff house in the Harry Potter series?',
         Answers: ['Dog', 'Polar Bear', 'Rat', 'Badger'],
-        CorrectAnswer: 'Badger'),
+        CorrectAnswer: 'Badger',
+        color: Colors.white),
     QuestionAndAnswer(
         Question: 'In which country was Frida Kahlo born?',
         Answers: ['Mexico', 'France', 'Germany', 'Spain'],
-        CorrectAnswer: 'Mexico'),
+        CorrectAnswer: 'Mexico',
+        color: Colors.white),
     QuestionAndAnswer(
         Question: 'Who illustrated Roald Dahls books?',
         Answers: [
@@ -78,11 +86,13 @@ class _HomeScreenState extends State<HomeScreen> {
           'Richard Corben',
           'Mark Hughes'
         ],
-        CorrectAnswer: 'Quentin Blake'),
+        CorrectAnswer: 'Quentin Blake',
+        color: Colors.white),
     QuestionAndAnswer(
         Question: 'In which European city is the Prado Art Gallery?',
         Answers: ['Madrid', 'Berlin', 'Rome', 'Paris'],
-        CorrectAnswer: 'Madrid'),
+        CorrectAnswer: 'Madrid',
+        color: Colors.white),
   ];
 
   @override
