@@ -24,6 +24,7 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   Color optionColor = Colors.white;
+  int tappedIndex = -1;
   List<String> option = ['A', 'B', 'C', 'D'];
   int isCorrect = 0;
   var ca = 0;
@@ -281,10 +282,12 @@ class _QuizScreenState extends State<QuizScreen> {
                               widget
                                   .QandAnsList[questionCounter].CorrectAnswer) {
                             setState(() {
+                              tappedIndex = index;
                               isCorrect = 1;
                             });
                           } else {
                             setState(() {
+                              tappedIndex = index;
                               isCorrect = 2;
                             });
                           }
@@ -292,8 +295,8 @@ class _QuizScreenState extends State<QuizScreen> {
                         child: OptionField(
                           option[index],
                           widget.QandAnsList[questionCounter].Answers[index],
-                          Key(index.toString()),
-                          isCorrect,
+                          ValueKey(index.toString()),
+                          tappedIndex == index ? isCorrect : 0,
                         ),
                       );
                     },
@@ -341,11 +344,11 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget OptionField(
     String a,
     String b,
-    Key key,
+    ValueKey key,
     int isCorrect,
   ) {
     return AnimatedContainer(
-        key: key,
+        key: ValueKey(key),
         duration: Duration(seconds: 1),
         height: MediaQuery.of(context).size.height * 0.07,
         width: MediaQuery.of(context).size.width * 0.9,
