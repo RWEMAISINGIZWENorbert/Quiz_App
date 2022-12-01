@@ -27,6 +27,12 @@ class _QuizScreenState extends State<QuizScreen> {
   List<String> option = ['A', 'B', 'C', 'D'];
   int isCorrect = 0;
   var ca = 0;
+  late int _selectedIndex;
+  _onSelected(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   var questionCounter = 0;
 
@@ -258,31 +264,39 @@ class _QuizScreenState extends State<QuizScreen> {
                             .toString(),
                         UniqueKey()),
                   )*/
-                      Expanded(
-                    child: Column(
-                      children: [
-                        ListView.separated(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: 4,
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: 7,
-                            );
-                          },
-                          itemBuilder: (context, index) {
-                            return OptionField(
-                                option[index],
-                                widget.QandAnsList[questionCounter]
-                                    .Answers[index],
-                                UniqueKey(),
-                                isCorrect,
-                                index,
-                                widget.QandAnsList[index].color);
-                          },
-                        )
-                      ],
-                    ),
+                      ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: 4,
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        height: 7,
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          if (widget.QandAnsList[questionCounter]
+                                  .Answers[index] ==
+                              widget
+                                  .QandAnsList[questionCounter].CorrectAnswer) {
+                            setState(() {
+                              isCorrect = 1;
+                            });
+                          } else {
+                            setState(() {
+                              isCorrect = 2;
+                            });
+                          }
+                        },
+                        child: OptionField(
+                          option[index],
+                          widget.QandAnsList[questionCounter].Answers[index],
+                          Key(index.toString()),
+                          isCorrect,
+                        ),
+                      );
+                    },
                   )),
               Container(
                 height: MediaQuery.of(context).size.height * 0.07,
@@ -325,60 +339,98 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Widget OptionField(
-      String a, String b, Key key, int s, int index, Color color) {
-    return GestureDetector(
-      onTap: () {
-        print(
-            'b is $b and correct answer is ${widget.QandAnsList[index].CorrectAnswer}');
-        setState(() {
-          if (widget.QandAnsList[index].CorrectAnswer == b) {
-            widget.QandAnsList[index].color = Colors.green;
-          } else {
-            widget.QandAnsList[index].color = Colors.red;
-          }
-
-          print('pressed on $a at $index');
-        });
-      },
-      child: AnimatedContainer(
-          key: key,
-          duration: Duration(seconds: 1),
-          height: MediaQuery.of(context).size.height * 0.07,
-          width: MediaQuery.of(context).size.width * 0.9,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(28), color: color),
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-            child: Row(children: [
-              Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * 0.055,
-                width: MediaQuery.of(context).size.height * 0.055,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Color.fromARGB(255, 255, 123, 0)),
-                child: Text(
-                  '$a',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Text(
-                '$b',
+    String a,
+    String b,
+    Key key,
+    int isCorrect,
+  ) {
+    return AnimatedContainer(
+        key: key,
+        duration: Duration(seconds: 1),
+        height: MediaQuery.of(context).size.height * 0.07,
+        width: MediaQuery.of(context).size.width * 0.9,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(28),
+            color: (isCorrect == 1)
+                ? Colors.green
+                : (isCorrect == 2)
+                    ? Colors.red
+                    : Colors.white),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+          child: Row(children: [
+            Container(
+              alignment: Alignment.center,
+              height: MediaQuery.of(context).size.height * 0.055,
+              width: MediaQuery.of(context).size.height * 0.055,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: Color.fromARGB(255, 255, 123, 0)),
+              child: Text(
+                '$a',
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
+                    color: Colors.white,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold),
               ),
-            ]),
-          )),
-    );
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            Text(
+              '$b',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+          ]),
+        ));
   }
+/*  Widget OptionField(String a, String b, Key key, int s) {
+return AnimatedContainer(
+    key: key,
+    duration: Duration(seconds: 1),
+    height: MediaQuery.of(context).size.height * 0.07,
+    width: MediaQuery.of(context).size.width * 0.9,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28),
+        color: (s == 1)
+            ? Colors.green
+            : (s == 2)
+                ? Colors.red
+                : Colors.white),
+    child: Padding(
+      padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+      child: Row(children: [
+        Container(
+          alignment: Alignment.center,
+          height: MediaQuery.of(context).size.height * 0.055,
+          width: MediaQuery.of(context).size.height * 0.055,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: Color.fromARGB(255, 255, 123, 0)),
+          child: Text(
+            '$a',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        SizedBox(
+          width: 15,
+        ),
+        Text(
+          '$b',
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.bold),
+        ),
+      ]),
+    ));
+  }*/
 
   Future openDialog(String a, String b) => showDialog(
         context: context,
