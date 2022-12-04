@@ -44,9 +44,17 @@ class _QuizScreenState extends State<QuizScreen> {
 
     var question = widget.QandAnsList[questionCounter].Question;
 
-    setState(() {
-      question = widget.QandAnsList[questionCounter].Question;
-    });
+    void getCurrentQuestion() {
+      setState(() {
+        questionCounter++;
+        isCorrect = 0;
+        question = widget.QandAnsList[questionCounter].Question;
+      });
+    }
+
+    // setState(() {
+    //   question = widget.QandAnsList[questionCounter].Question;
+    // });
 
     return SafeArea(
       child: Scaffold(
@@ -129,13 +137,13 @@ class _QuizScreenState extends State<QuizScreen> {
                       isTimerTextShown: true,
                       autoStart: true,
                       onStart: () {
-                        debugPrint('Countdown Started');
+                        //debugPrint('Countdown Started');
                       },
                       onComplete: () {
-                        debugPrint('Countdown Ended');
+                        //debugPrint('Countdown Ended');
                       },
                       onChange: (String timeStamp) {
-                        debugPrint('Countdown Changed $timeStamp');
+                        //debugPrint('Countdown Changed $timeStamp');
                       },
                     ),
                   ],
@@ -284,11 +292,19 @@ class _QuizScreenState extends State<QuizScreen> {
                             setState(() {
                               tappedIndex = index;
                               isCorrect = 1;
+
+                              Timer(Duration(seconds: 2), () {
+                                getCurrentQuestion();
+                              });
                             });
                           } else {
                             setState(() {
                               tappedIndex = index;
                               isCorrect = 2;
+
+                              Timer(Duration(seconds: 2), () {
+                                getCurrentQuestion();
+                              });
                             });
                           }
                         },
