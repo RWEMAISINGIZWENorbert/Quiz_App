@@ -8,6 +8,7 @@ class ResultScreen extends StatelessWidget {
   ResultScreen(
       {required this.totalQuestions,
       required this.attemptedQuestions,
+      required this.color,
       required this.rightAnswers,
       required this.imgString,
       required this.heading1,
@@ -15,6 +16,7 @@ class ResultScreen extends StatelessWidget {
 
   int totalQuestions;
   int attemptedQuestions;
+  Color color;
   int rightAnswers;
   String imgString;
   String heading1;
@@ -91,7 +93,7 @@ class ResultScreen extends StatelessWidget {
                     Text(
                       '$per' + '%' + ' Score',
                       style: TextStyle(
-                          color: Color.fromARGB(255, 49, 182, 53),
+                          color: color,
                           fontSize: 35,
                           fontWeight: FontWeight.bold),
                     ),

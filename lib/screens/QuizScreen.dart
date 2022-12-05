@@ -12,11 +12,11 @@ import 'package:quiz_app/utils/GlobalColors.dart';
 class QuizScreen extends StatefulWidget {
   // const QuizScreen({super.key});
   final String heading;
-  static const String RemoveMe = 'REMOVE ME';
   final List<QuestionAndAnswer> QandAnsList;
+  final Icon icon;
 
-  const QuizScreen({Key? key, required this.heading, required this.QandAnsList})
-      : super(key: key);
+  QuizScreen(
+      {required this.heading, required this.QandAnsList, required this.icon});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -151,17 +151,33 @@ class _QuizScreenState extends State<QuizScreen> {
                         //debugPrint('Countdown Started');
                       },
                       onComplete: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ResultScreen(
-                                    totalQuestions: questionMaxLength,
-                                    attemptedQuestions: questionCounter,
-                                    rightAnswers: ca,
-                                    imgString: timeUp,
-                                    heading1: 'Time is up !',
-                                    heading2:
-                                        'Try to attempt quiz within time limit')));
+                        if (ca >= (questionMaxLength / 2)) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => new ResultScreen(
+                                      totalQuestions: questionMaxLength,
+                                      attemptedQuestions: questionCounter,
+                                      color: Colors.green,
+                                      rightAnswers: ca,
+                                      imgString: timeUp,
+                                      heading1: 'Time is up !',
+                                      heading2:
+                                          'Try to attempt quiz within time limit')));
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => new ResultScreen(
+                                      totalQuestions: questionMaxLength,
+                                      attemptedQuestions: questionCounter,
+                                      color: Colors.red,
+                                      rightAnswers: ca,
+                                      imgString: timeUp,
+                                      heading1: 'Time is up !',
+                                      heading2:
+                                          'Try to attempt quiz within time limit')));
+                        }
                       },
                       onChange: (String timeStamp) {},
                     ),
@@ -255,9 +271,10 @@ class _QuizScreenState extends State<QuizScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ResultScreen(
+                          builder: (context) => new ResultScreen(
                             totalQuestions: questionMaxLength,
                             attemptedQuestions: (questionCounter + 1),
+                            color: Colors.green,
                             rightAnswers: ca,
                             imgString: passedImg,
                             heading1: 'Quiz Completed',
@@ -270,9 +287,10 @@ class _QuizScreenState extends State<QuizScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ResultScreen(
+                          builder: (context) => new ResultScreen(
                             totalQuestions: questionMaxLength,
                             attemptedQuestions: (questionCounter + 1),
+                            color: Colors.red,
                             rightAnswers: ca,
                             imgString: failedImg,
                             heading1: 'Quiz Completed',
