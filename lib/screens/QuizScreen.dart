@@ -25,6 +25,12 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   Color optionColor = Colors.white;
   int tappedIndex = -1;
+  String passedImg =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgdqAzdrgfgFE2-hQw7-wGtFwp9tZ7Z3nXWyNz0lySjRvjQLA_KO87o_SUvvr5_OMXCys&usqp=CAU';
+  String timeUp =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCAdJcgnFrrlDU1UxdcKyhkhI2S3U1BrDs9w&usqp=CAU';
+  String failedImg =
+      'https://backgroundlabs.com/files/failed-background-2940.png';
   List<String> option = ['A', 'B', 'C', 'D'];
   int isCorrect = 0;
   var ca = 0;
@@ -46,9 +52,11 @@ class _QuizScreenState extends State<QuizScreen> {
 
     void getCurrentQuestion() {
       setState(() {
-        questionCounter++;
-        isCorrect = 0;
-        question = widget.QandAnsList[questionCounter].Question;
+        if (questionCounter < 9) {
+          questionCounter++;
+          isCorrect = 0;
+          question = widget.QandAnsList[questionCounter].Question;
+        }
       });
     }
 
@@ -110,11 +118,14 @@ class _QuizScreenState extends State<QuizScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Quiz : ' + questionMaxLength.toString(),
+                      'Question : ' +
+                          (questionCounter + 1).toString() +
+                          '/' +
+                          questionMaxLength.toString(),
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                     CircularCountDownTimer(
-                      duration: 30,
+                      duration: 60,
                       initialDuration: 0,
                       controller: CountDownController(),
                       width: MediaQuery.of(context).size.width * 0.12,
@@ -140,11 +151,19 @@ class _QuizScreenState extends State<QuizScreen> {
                         //debugPrint('Countdown Started');
                       },
                       onComplete: () {
-                        //debugPrint('Countdown Ended');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResultScreen(
+                                    totalQuestions: questionMaxLength,
+                                    attemptedQuestions: questionCounter,
+                                    rightAnswers: ca,
+                                    imgString: timeUp,
+                                    heading1: 'Time is up !',
+                                    heading2:
+                                        'Try to attempt quiz within time limit')));
                       },
-                      onChange: (String timeStamp) {
-                        //debugPrint('Countdown Changed $timeStamp');
-                      },
+                      onChange: (String timeStamp) {},
                     ),
                   ],
                 ),
@@ -173,107 +192,7 @@ class _QuizScreenState extends State<QuizScreen> {
               SizedBox(
                   height: MediaQuery.of(context).size.height * 0.4,
                   width: MediaQuery.of(context).size.width * 0.9,
-                  child:
-                      /* InkWell(
-                    onTap: () {
-                      if (widget.QandAnsList[questionCounter].Answers[0] ==
-                          widget.QandAnsList[questionCounter].CorrectAnswer) {
-                        setState(() {
-                          optionColor = Colors.green;
-                        });
-                        ca++;
-                      } else
-                        optionColor = Colors.red;
-              
-                      if (questionCounter == questionMaxLength - 1) {
-                        openDialog('Quiz Completed!',
-                            'Click on the Submit button below to see the Result');
-                      } else {
-                        setState(() {
-                          questionCounter++;
-                          // optionColor = Colors.white;
-                        });
-                      }
-                    },
-                    child: OptionField(
-                        'A',
-                        widget.QandAnsList[questionCounter].Answers[0]
-                            .toString(),
-                        UniqueKey()),
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      if (widget.QandAnsList[questionCounter].Answers[1] ==
-                          widget.QandAnsList[questionCounter].CorrectAnswer) {
-                        ca++;
-                      }
-                      if (questionCounter == questionMaxLength - 1) {
-                        openDialog('Quiz Completed!',
-                            'Click on the Submit button below to see the Result');
-                      } else {
-                        setState(() {
-                          questionCounter++;
-                        });
-                      }
-                    },
-                    child: OptionField(
-                        'B',
-                        widget.QandAnsList[questionCounter].Answers[1]
-                            .toString(),
-                        UniqueKey()),
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      if (widget.QandAnsList[questionCounter].Answers[2] ==
-                          widget.QandAnsList[questionCounter].CorrectAnswer) {
-                        ca++;
-                      }
-                      if (questionCounter == questionMaxLength - 1) {
-                        openDialog('Quiz Completed!',
-                            'Click on the Submit button below to see the Result');
-                      } else {
-                        setState(() {
-                          questionCounter++;
-                        });
-                      }
-                    },
-                    child: OptionField(
-                        'C',
-                        widget.QandAnsList[questionCounter].Answers[2]
-                            .toString(),
-                        UniqueKey()),
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      if (widget.QandAnsList[questionCounter].Answers[3] ==
-                          widget.QandAnsList[questionCounter].CorrectAnswer) {
-                        ca++;
-                      }
-                      if (questionCounter == questionMaxLength - 1) {
-                        openDialog('Quiz Completed!',
-                            'Click on the Submit button below to see the Result');
-                      } else {
-                        setState(() {
-                          questionCounter++;
-                        });
-                      }
-                    },
-                    child: OptionField(
-                        'D',
-                        widget.QandAnsList[questionCounter].Answers[3]
-                            .toString(),
-                        UniqueKey()),
-                  )*/
-                      ListView.separated(
+                  child: ListView.separated(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemCount: 4,
@@ -285,15 +204,20 @@ class _QuizScreenState extends State<QuizScreen> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
+                          if (questionCounter == questionMaxLength - 1) {
+                            openDialog('Quiz Completed!',
+                                'Click on the Submit button below to see the Result');
+                          }
                           if (widget.QandAnsList[questionCounter]
                                   .Answers[index] ==
                               widget
                                   .QandAnsList[questionCounter].CorrectAnswer) {
                             setState(() {
                               tappedIndex = index;
+                              ca++;
                               isCorrect = 1;
 
-                              Timer(Duration(seconds: 2), () {
+                              Timer(Duration(seconds: 1), () {
                                 getCurrentQuestion();
                               });
                             });
@@ -302,7 +226,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               tappedIndex = index;
                               isCorrect = 2;
 
-                              Timer(Duration(seconds: 2), () {
+                              Timer(Duration(seconds: 1), () {
                                 getCurrentQuestion();
                               });
                             });
@@ -326,13 +250,34 @@ class _QuizScreenState extends State<QuizScreen> {
                 child: TextButton(
                   onPressed: () {
                     print('Value of question: $questionCounter');
-                    if (questionCounter == questionMaxLength - 1) {
+                    if (questionCounter == questionMaxLength - 1 &&
+                        ca >= (questionMaxLength) / 2) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ResultScreen(
-                              totalQuestions: questionCounter + 1,
-                              rightAnswers: ca),
+                            totalQuestions: questionMaxLength,
+                            attemptedQuestions: (questionCounter + 1),
+                            rightAnswers: ca,
+                            imgString: passedImg,
+                            heading1: 'Quiz Completed',
+                            heading2: 'You have passed the quiz',
+                          ),
+                        ),
+                      );
+                    } else if (questionCounter == questionMaxLength - 1 &&
+                        ca < (questionMaxLength) / 2) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResultScreen(
+                            totalQuestions: questionMaxLength,
+                            attemptedQuestions: (questionCounter + 1),
+                            rightAnswers: ca,
+                            imgString: failedImg,
+                            heading1: 'Quiz Completed',
+                            heading2: 'You have failed the quiz',
+                          ),
                         ),
                       );
                     } else {

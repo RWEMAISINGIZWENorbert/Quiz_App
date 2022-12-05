@@ -5,13 +5,20 @@ import 'package:quiz_app/screens/HomeScreen.dart';
 import 'package:quiz_app/utils/GlobalColors.dart';
 
 class ResultScreen extends StatelessWidget {
-  ResultScreen({
-    required this.totalQuestions,
-    required this.rightAnswers,
-  });
+  ResultScreen(
+      {required this.totalQuestions,
+      required this.attemptedQuestions,
+      required this.rightAnswers,
+      required this.imgString,
+      required this.heading1,
+      required this.heading2});
 
-  var totalQuestions;
-  var rightAnswers;
+  int totalQuestions;
+  int attemptedQuestions;
+  int rightAnswers;
+  String imgString;
+  String heading1;
+  String heading2;
 
   late int per = Percentage();
 
@@ -64,15 +71,15 @@ class ResultScreen extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(25, 50, 25, 40),
                   child: Column(children: [
                     Image.network(
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgdqAzdrgfgFE2-hQw7-wGtFwp9tZ7Z3nXWyNz0lySjRvjQLA_KO87o_SUvvr5_OMXCys&usqp=CAU',
+                      imgString,
                       height: 100,
-                      width: 100,
+                      width: 150,
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "Congrats!",
+                      "$heading1",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 22,
@@ -92,7 +99,7 @@ class ResultScreen extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      'Quiz completed successfully.',
+                      '$heading2',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 16,
@@ -102,7 +109,7 @@ class ResultScreen extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'You attempted $totalQuestions questions and from that $rightAnswers answers are correct.',
+                      'You attempted $attemptedQuestions questions out of $totalQuestions from which $rightAnswers answers are correct.',
                       style: TextStyle(
                           color: Color.fromARGB(255, 33, 40, 44),
                           fontSize: 15,
